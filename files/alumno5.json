@@ -1,5 +1,7 @@
-{
-  "name": "Pedro Hernandez",
-  "edad": "17",
-  "dni": "54778321"
-}]
+[
+  {
+    "name": "Martin Hernandez",
+    "edad": "20",
+    "dni": "98778321"
+  }
+]
