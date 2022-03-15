@@ -1,8 +1,48 @@
-const fs = require("fs");
+// const fs = require("fs");
 const path = require("path");
+// Crear un programa que lea los alumnos y arme un listado
+// const utils = require('./utils');
+const {
+  promises: { readFile, writeFile },
+} = require("fs");
+
+const main = () => {
+  // Leer los alumnos
+  // Crear el archivo de alumnos
+  Promise.all([
+    readFile("./files/alumno1.json"),
+    readFile("./files/alumno2.json"),
+    readFile("./files/alumno3.json"),
+    readFile("./files/alumno4.json"),
+    readFile("./files/alumno5.json"),
+  ])
+    .then(([alumno1, alumno2, alumno3, alumno4, alumno5]) => {
+      // Crear el listado
+      writeFile("listado.txt", [alumno1, alumno2, alumno3, alumno4, alumno5])
+        .then((data) => {
+          console.log("File written successfully\n");
+          console.log("The written has the following contents:");
+          console.log(
+            readFile("listado.txt").then((data) => console.log(data.toString()))
+          );
+        })
+        .catch((err) => {
+          console.error(error.message);
+          process.exit(1);
+        });
+    })
+    .catch((error) => {
+      console.error(error.message);
+      process.exit(1);
+    });
+};
+
+main();
+
+// main();
 
 // const alumno1 = fs.readFileSync('./files/alumno1.json', 'utf-8')
-
+// ----- PRIMER VERSION SIN PROMISES--------------
 // fs.readFile("./files/alumno1.json", "utf8", function (err1, data1) {
 //   fs.readFile("./files/alumno2.json", "utf8", function (err2, data2) {
 //     fs.readFile("./files/alumno3.json", "utf8", function (err3, data3) {
@@ -22,58 +62,58 @@ const path = require("path");
 //   });
 // });
 
-const student1 = new Promise((resolve, reject) => {
-  fs.readFile("./files/alumno1.json", (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      resolve(JSON.parse(data));
-    }
-  });
-});
-const student2 = new Promise((resolve, reject) => {
-  fs.readFile("./files/alumno2.json", (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      resolve(JSON.parse(data));
-    }
-  });
-});
-const student3 = new Promise((resolve, reject) => {
-  fs.readFile("./files/alumno3.json", (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      resolve(JSON.parse(data));
-    }
-  });
-});
-const student4 = new Promise((resolve, reject) => {
-  fs.readFile("./files/alumno4.json", (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      resolve(JSON.parse(data));
-    }
-  });
-});
-const student5 = new Promise((resolve, reject) => {
-  fs.readFile("./files/alumno5.json", (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      resolve(JSON.parse(data));
-    }
-  });
-});
-const createList = (datos) => {
-  fs.writeFile("listadodeAlumnos.json", datos, (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-};
-Promise.all([student1, student2, student3, student4, student5])
-  .then((data) => createList(JSON.stringify(data, null, 2)))
-  .catch((err) => console.log(err));
+// const student1 = new Promise((resolve, reject) => {
+//   fs.readFile("./files/alumno1.json", (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       resolve(JSON.parse(data));
+//     }
+//   });
+// });
+// const student2 = new Promise((resolve, reject) => {
+//   fs.readFile("./files/alumno2.json", (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       resolve(JSON.parse(data));
+//     }
+//   });
+// });
+// const student3 = new Promise((resolve, reject) => {
+//   fs.readFile("./files/alumno3.json", (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       resolve(JSON.parse(data));
+//     }
+//   });
+// });
+// const student4 = new Promise((resolve, reject) => {
+//   fs.readFile("./files/alumno4.json", (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       resolve(JSON.parse(data));
+//     }
+//   });
+// });
+// const student5 = new Promise((resolve, reject) => {
+//   fs.readFile("./files/alumno5.json", (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       resolve(JSON.parse(data));
+//     }
+//   });
+// });
+// const createList = (datos) => {
+//   fs.writeFile("listadodeAlumnos.json", datos, (err) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//   });
+// };
+// Promise.all([student1, student2, student3, student4, student5])
+//   .then((data) => createList(JSON.stringify(data, null, 2)))
+//   .catch((err) => console.log(err));
