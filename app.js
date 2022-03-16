@@ -1,40 +1,21 @@
 // const fs = require("fs");
 const path = require("path");
 // Crear un programa que lea los alumnos y arme un listado
-// const utils = require('./utils');
-const {
-  promises: { readFile, writeFile },
-} = require("fs");
+const utils = require("./utils");
 
 const main = () => {
   // Leer los alumnos
   // Crear el archivo de alumnos
-  Promise.all([
-    readFile("./files/alumno1.json"),
-    readFile("./files/alumno2.json"),
-    readFile("./files/alumno3.json"),
-    readFile("./files/alumno4.json"),
-    readFile("./files/alumno5.json"),
-  ])
-    .then(([alumno1, alumno2, alumno3, alumno4, alumno5]) => {
+  Promise.all(utils.readFiles()).then(
+    ([alumno1, alumno2, alumno3, alumno4, alumno5]) => {
+      let res = "\n";
+      [alumno1, alumno2, alumno3, alumno4, alumno5].forEach((file) => {
+        res = res + file.toString() + "\n";
+      });
       // Crear el listado
-      writeFile("listado.txt", [alumno1, alumno2, alumno3, alumno4, alumno5])
-        .then((data) => {
-          console.log("File written successfully\n");
-          console.log("The written has the following contents:");
-          console.log(
-            readFile("listado.txt").then((data) => console.log(data.toString()))
-          );
-        })
-        .catch((err) => {
-          console.error(error.message);
-          process.exit(1);
-        });
-    })
-    .catch((error) => {
-      console.error(error.message);
-      process.exit(1);
-    });
+      utils.writeFiles(res);
+    }
+  );
 };
 
 main();
